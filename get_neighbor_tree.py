@@ -4,7 +4,9 @@ import os
 import numpy as np
 import json
 
-# this should be a view: all the calculations are to be extracted into a dedicated method
+# REFACTOR THIS UGLY PIECE OF SHIT
+
+
 
 
 def get_neighbor_tree(filename, rnas, radius):
@@ -12,7 +14,7 @@ def get_neighbor_tree(filename, rnas, radius):
     filepath = os.path.realpath("./../.cif_models/{}.cif".format(filename))
 
     requestedstruct = filename
-    requestedradius = float(radius)
+    requestedradius = radius
     rnas_to_exclude = rnas
 
     print("\n\n----------------------------------------------------------------------------------------")
@@ -24,11 +26,11 @@ def get_neighbor_tree(filename, rnas, radius):
         parser = PDB.FastMMCIFParser(QUIET=True)
         structure = parser.get_structure(requestedstruct, f)
         allchains = [chain.get_id() for chain in structure.get_chains()]
-
     # unfold to atoms
     atomwise_struct = PDB.Selection.unfold_entities(structure, "A")
     structwide_ns = PDB.NeighborSearch(atomwise_struct, bucket_size=5)
     all_nbr_pairs = structwide_ns.search_all(radius, "C")
+
     i = 0
     # Excluding RNAs from the protein neighbor pairs
     while i < len(all_nbr_pairs):
@@ -44,7 +46,6 @@ def get_neighbor_tree(filename, rnas, radius):
     # So either rewrite in WAS or shut up and code on. Huh. Maybe i will.
     nbrtree = {}
     # if a key doesnt already exists in the tree, create it
-
     for nbrtuple in all_nbr_pairs:
         if not(nbrtuple[0].get_id() in nbrtree.keys()):
             nbrtree[nbrtuple[0].get_id()] = []
@@ -99,14 +100,12 @@ def get_neighbor_tree(filename, rnas, radius):
 
     # --------------------------------------------------------------------------------------------------------
 
-    return [total[0],   len(singularChains), total[1], {
-            "clusters": nbr_clusters,
-            "singular": singularChains
-            }]
+    # print('TOTAL 1 IS ', total[])
+    return [ total[0],   len(singularChains), total[1], {"clusters": nbr_clusters, "singular": singularChains}]
 
 
-print(get_neighbor_tree('3j9m', ['A', 'B', 'u', 'AA'], 2.5))
-
+# x = get_neighbor_tree('3j9m', ['A', 'B', 'u', 'AA'], 2.5)
+# print("X 3  IS :                    >>>>> ", x[3])
 
 
 # >>>>>Past tries, emailed Thomas Hamelryck, the author of NeighborSearch among other things.
