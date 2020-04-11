@@ -1,27 +1,10 @@
 from Bio import PDB
-from get_clusters_of_neighbors import clustersets
+from clustering_scripts.nbrtree_to_nbrclusters import nbrtree_to_nbrclusters
+from clustering_scripts.nbrtuples_to_nbrtree import nbrtuples_to_nbrtree
+from clustering_scripts.get_metadata import get_metadata
 import os
 import numpy as np
 import json
-
-
-def extract_nbrtree_from_tuples(nbrtuples=list):
-    nbrtree = {}
-    # Create keys
-    for seedpair in nbrtuples:
-        if not(seedpair[0] in nbrtree.keys()):
-            nbrtree[seedpair[0]] = []
-        if not(seedpair[1] in nbrtree.keys()):
-            nbrtree[seedpair[1]] = []
-
-    for pair in nbrtuples:
-        # if second chain of the two is not in the cluster of the first,
-        # add it to the cluster (they are neigbor, after all)
-        if pair[1] not in nbrtree[pair[0]]:
-            nbrtree[pair[0]].append(pair[1])
-        if pair[0] not in nbrtree[pair[1]]:
-            nbrtree[pair[1]].append(pair[0])
-    return nbrtree
 
 
 def verify_no_rna(nbrtree=dict, allchains=list, rnas=list):
@@ -33,40 +16,6 @@ def verify_no_rna(nbrtree=dict, allchains=list, rnas=list):
         if key not in allchains:
             print("Key {} is not struct's chains: {}!".format(key, allchains))
             raise ValueError
-
-
-def get_metadata(nbrclusters=list, allchains=list, rnas=list):
-    # --------------------------------------------TALLYING-----------------------------------------------------
-    singularChains = []
-    mergedClusters = set([])
-    # Merge everything
-    for cluster in nbrclusters:
-        mergedClusters.update(cluster)
-    for chain in allchains:
-        if chain not in mergedClusters and chain not in rnas:
-            singularChains.append(chain)
-
-    def countClustersChains(clusters=list):
-        # returns the number of [chains, clusters]
-        chaincount = 0
-        clustercount = 0
-        for cluster in clusters:
-            clustercount += 1
-            for chain in cluster:
-                chaincount += 1
-        return [chaincount, clustercount]
-
-    totalcount = countClustersChains(nbrclusters)
-    return {
-        "n_clusters": totalcount[1],
-        "n_clustered": totalcount[0],
-        "n_singular": len(singularChains),
-        "n_rnas": len(rnas),
-        "n_total": len(allchains),
-        "singular_chains": singularChains,
-        "rnas": rnas,
-        "allchains ": allchains
-    }
 
 
 def extract_clusters(pdbid=str, rnas=list, radius=int):
@@ -99,11 +48,12 @@ def extract_clusters(pdbid=str, rnas=list, radius=int):
     nbridtuples = [(nbrtuple[0].get_id(), nbrtuple[1].get_id())
                    for nbrtuple in all_nbr_pairs]
     # so, the neighbor tree is needed to provide a basis for clusters
-    nbrtree = extract_nbrtree_from_tuples(nbridtuples)
+    nbrtree = nbrtuples_to_nbrtree(nbridtuples)
     verify_no_rna(nbrtree, allchains, rnas_to_exclude)
 
     # Extract clusters from the neighbortree
-    nbrclusters = [list(c)for c in clustersets(nbrtree, rnas_to_exclude)]
+    nbrclusters = [list(c)
+                   for c in nbrtree_to_nbrclusters(nbrtree, rnas_to_exclude)]
     metadata = get_metadata(nbrclusters, allchains, rnas_to_exclude)
 
     return {

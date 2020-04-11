@@ -1,8 +1,8 @@
 import os
 import numpy as np
 
-
-def clustersets(nbrtree=dict, rnaIds=list):
+ 
+def nbrtree_to_nbrclusters(nbrtree=dict, rnaIds=list):
     neighborhoods = []
     keys = nbrtree.keys()
     # mix the key with its value, forming its local neighborhood

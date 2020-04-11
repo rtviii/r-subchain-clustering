@@ -4,7 +4,7 @@ from pathlib import Path
 import os
 import numpy as np
 from Bio import PDB
-from clustering import extract_clusters
+from clustering_scripts.extract_clusters import extract_clusters
 import json
 
 
