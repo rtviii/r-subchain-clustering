@@ -58,18 +58,18 @@ def get_metadata(nbrclusters=list, allchains=list, rnas=list):
 
     totalcount = countClustersChains(nbrclusters)
     return {
-        "n_clusters"        : totalcount[1],
-        "n_chains_clustered": totalcount[0],
-        "n_rnas"            : len(rnas),
-        "n_chains_total"    : len(allchains),
-        "n_chains_singular" : len(singularChains),
-        "singular_chains"   : singularChains,
-        "rnas"              : rnas,
-        "allchains "        : allchains
+        "n_clusters": totalcount[1],
+        "n_clustered": totalcount[0],
+        "n_singular": len(singularChains),
+        "n_rnas": len(rnas),
+        "n_total": len(allchains),
+        "singular_chains": singularChains,
+        "rnas": rnas,
+        "allchains ": allchains
     }
 
 
-def get_neighbor_tree(pdbid, rnas, radius):
+def extract_clusters(pdbid=str, rnas=list, radius=int):
     filepath = os.path.realpath("./../.cif_models/{}.cif".format(pdbid))
     requestedstruct = pdbid
     requestedradius = radius
@@ -104,13 +104,13 @@ def get_neighbor_tree(pdbid, rnas, radius):
 
     # Extract clusters from the neighbortree
     nbrclusters = [list(c)for c in clustersets(nbrtree, rnas_to_exclude)]
-
     metadata = get_metadata(nbrclusters, allchains, rnas_to_exclude)
 
     return {
         "metadata": metadata,
         "clusters": nbrclusters
     }
+
 
 # >>>>>Past tries, emailed Thomas Hamelryck, the author of NeighborSearch among other things.
 # >>>> Still not sure if chain neighbors given a CHAIN could be gotten.

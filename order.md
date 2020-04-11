@@ -5,4 +5,3 @@
 3. Reduce neighbour tree to clusters of neighbours. **HAS TO BE MADE RECURSIVE**.
 4. Save to file.
 5. Iterate (1-4) for radii in range 1.5-8 angstrom to see full range of clustering.
-6. 

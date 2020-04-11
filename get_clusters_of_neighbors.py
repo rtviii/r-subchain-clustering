@@ -2,23 +2,22 @@ import os
 import numpy as np
 
 
-def clustersets(nbrtree, rnaIds=list):
-
-    flatitems = []
+def clustersets(nbrtree=dict, rnaIds=list):
+    neighborhoods = []
     keys = nbrtree.keys()
+    # mix the key with its value, forming its local neighborhood
     for key in keys:
-        flatitems.append((str(key), [str(item) for item in nbrtree[key]]))
-
+        neighborhoods.append((str(key), [str(item) for item in nbrtree[key]]))
     clusters = []
-    for kvpair in flatitems:
+    # Make sure that .update() is passed a LIST. Strings get split into chars otherwise.
+    for kvpair in neighborhoods:
         newcluster = set(kvpair[1])
-        # Make sure that .update() is passed a LIST. Strings get split into chars otherwise.
         newcluster.update([kvpair[0]])
         clusters.append(newcluster)
 
     def merge_sets(clusters=list):
-        # Merge sets is a single pass of uniting non-disjoint sets in an array
-        # Total disjoint is the recursive pass of mergesets
+        # Merge sets is a single pass over non-disjoint sets in an array
+        # Total disjoint is the recursive pass over mergesets
         print("\nMerging non-disjoint sets....")
 
         lead = 0
