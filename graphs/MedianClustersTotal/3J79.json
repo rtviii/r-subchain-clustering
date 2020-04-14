@@ -1,0 +1,722 @@
+{
+    "optimum_radius": 2.7,
+    "header": {
+        "rnanames": [
+            "A",
+            "B",
+            "C"
+        ],
+        "integrated": {
+            "0": {
+                "entityNr": "27",
+                "length": "162",
+                "type": "protein",
+                "weight": "19295.9",
+                "rcsbUniAcc": "Q8IEM3",
+                "pfamMatches": [
+                    "PF01246"
+                ],
+                "pfamDB": "PF01246"
+            },
+            "1": {
+                "entityNr": "28",
+                "length": "146",
+                "type": "protein",
+                "weight": "16785.2",
+                "rcsbUniAcc": "Q8IKM5",
+                "pfamMatches": [
+                    "PF01777"
+                ],
+                "pfamDB": "PF01777"
+            },
+            "2": {
+                "entityNr": "29",
+                "length": "127",
+                "type": "protein",
+                "weight": "14437.8",
+                "rcsbUniAcc": "Q8IHU0",
+                "pfamMatches": [
+                    "PF01778"
+                ],
+                "pfamDB": "PF01778"
+            },
+            "3": {
+                "entityNr": "30",
+                "length": "124",
+                "type": "protein",
+                "weight": "14787.8",
+                "rcsbUniAcc": "Q8IIB4",
+                "pfamMatches": [
+                    "PF00831"
+                ],
+                "pfamDB": "PF00831"
+            },
+            "4": {
+                "entityNr": "31",
+                "length": "67",
+                "type": "protein",
+                "weight": "8041.59",
+                "rcsbUniAcc": "C6S3J6",
+                "pfamMatches": [
+                    "PF01779"
+                ],
+                "pfamDB": "PF01779"
+            },
+            "5": {
+                "entityNr": "32",
+                "length": "257",
+                "type": "protein",
+                "weight": "30593.2",
+                "rcsbUniAcc": "O97250",
+                "pfamMatches": [
+                    "PF00327",
+                    "PF08079"
+                ],
+                "pfamDB": [
+                    "PF08079",
+                    "PF00327"
+                ]
+            },
+            "6": {
+                "entityNr": "33",
+                "length": "108",
+                "type": "protein",
+                "weight": "11794.8",
+                "rcsbUniAcc": "Q8IJK8",
+                "pfamMatches": [
+                    "PF01248"
+                ],
+                "pfamDB": "PF01248"
+            },
+            "7": {
+                "entityNr": "34",
+                "length": "120",
+                "type": "protein",
+                "weight": "14099.9",
+                "rcsbUniAcc": "Q8I463",
+                "pfamMatches": [
+                    "PF01198"
+                ],
+                "pfamDB": "PF01198"
+            },
+            "8": {
+                "entityNr": "35",
+                "length": "131",
+                "type": "protein",
+                "weight": "15565.8",
+                "rcsbUniAcc": "Q8I3B0",
+                "pfamMatches": [
+                    "PF01655"
+                ],
+                "pfamDB": "PF01655"
+            },
+            "9": {
+                "entityNr": "36",
+                "length": "140",
+                "type": "protein",
+                "weight": "16306.4",
+                "rcsbUniAcc": "Q8IHT9",
+                "pfamMatches": [
+                    "PF01247"
+                ],
+                "pfamDB": "PF01247"
+            },
+            "A": {
+                "entityNr": "1",
+                "length": "3788",
+                "type": "rna",
+                "weight": "1216210.0",
+                "RNA": true
+            },
+            "J": {
+                "entityNr": "10",
+                "length": "283",
+                "type": "protein",
+                "weight": "32760.5",
+                "rcsbUniAcc": "Q8ILL2",
+                "pfamMatches": [
+                    "PF01248"
+                ],
+                "pfamDB": "PF01248"
+            },
+            "K": {
+                "entityNr": "11",
+                "length": "202",
+                "type": "protein",
+                "weight": "23805.3",
+                "rcsbUniAcc": "Q8IJZ7",
+                "pfamMatches": [
+                    "PF00572"
+                ],
+                "pfamDB": "PF00572"
+            },
+            "L": {
+                "entityNr": "12",
+                "length": "215",
+                "type": "protein",
+                "weight": "25508.2",
+                "rcsbUniAcc": "Q8IAX6",
+                "pfamMatches": [
+                    "PF01294"
+                ],
+                "pfamDB": "PF01294"
+            },
+            "M": {
+                "entityNr": "13",
+                "length": "139",
+                "type": "protein",
+                "weight": "15015.7",
+                "rcsbUniAcc": "Q8IE09",
+                "pfamMatches": [
+                    "PF00238"
+                ],
+                "pfamDB": "PF00238"
+            },
+            "N": {
+                "entityNr": "14",
+                "length": "165",
+                "type": "protein",
+                "weight": "19340.4",
+                "rcsbUniAcc": "Q8ILE8",
+                "pfamMatches": [
+                    "PF01929"
+                ],
+                "pfamDB": "PF01929"
+            },
+            "O": {
+                "entityNr": "15",
+                "length": "148",
+                "type": "protein",
+                "weight": "16765.8",
+                "rcsbUniAcc": "C6KT23",
+                "pfamMatches": [
+                    "PF00828"
+                ],
+                "pfamDB": "PF00828"
+            },
+            "P": {
+                "entityNr": "16",
+                "length": "205",
+                "type": "protein",
+                "weight": "24197.7",
+                "rcsbUniAcc": "C0H4A6",
+                "pfamMatches": [
+                    "PF00827"
+                ],
+                "pfamDB": "PF00827"
+            },
+            "Q": {
+                "entityNr": "17",
+                "length": "219",
+                "type": "protein",
+                "weight": "25265.5",
+                "rcsbUniAcc": "Q8ILV2",
+                "pfamMatches": [
+                    "PF00252"
+                ],
+                "pfamDB": "PF00252"
+            },
+            "R": {
+                "entityNr": "18",
+                "length": "294",
+                "type": "protein",
+                "weight": "34067.4",
+                "rcsbUniAcc": "Q8ILL3",
+                "pfamMatches": [
+                    "PF14204",
+                    "PF17144"
+                ],
+                "pfamDB": [
+                    "PF17144",
+                    "PF14204"
+                ]
+            },
+            "S": {
+                "entityNr": "19",
+                "length": "187",
+                "type": "protein",
+                "weight": "21508.8",
+                "rcsbUniAcc": "C0H5G3",
+                "pfamMatches": [
+                    "PF17135"
+                ],
+                "pfamDB": "PF17135"
+            },
+            "B": {
+                "entityNr": "2",
+                "length": "119",
+                "type": "rna",
+                "weight": "38410.9",
+                "RNA": true
+            },
+            "T": {
+                "entityNr": "20",
+                "length": "182",
+                "type": "protein",
+                "weight": "21641.1",
+                "rcsbUniAcc": "C6KSY6",
+                "pfamMatches": [
+                    "PF01280"
+                ],
+                "pfamDB": "PF01280"
+            },
+            "U": {
+                "entityNr": "21",
+                "length": "184",
+                "type": "protein",
+                "weight": "21793.6",
+                "rcsbUniAcc": "Q8IDS6",
+                "pfamMatches": [
+                    "PF01775"
+                ],
+                "pfamDB": "PF01775"
+            },
+            "V": {
+                "entityNr": "22",
+                "length": "161",
+                "type": "protein",
+                "weight": "18840.2",
+                "rcsbUniAcc": "Q8ILK3",
+                "pfamMatches": [
+                    "PF01157"
+                ],
+                "pfamDB": "PF01157"
+            },
+            "W": {
+                "entityNr": "23",
+                "length": "203",
+                "type": "protein",
+                "weight": "23469.9",
+                "rcsbUniAcc": "Q8IDI5",
+                "pfamMatches": [
+                    "PF00237"
+                ],
+                "pfamDB": "PF00237"
+            },
+            "X": {
+                "entityNr": "24",
+                "length": "139",
+                "type": "protein",
+                "weight": "16422.9",
+                "rcsbUniAcc": "Q8IB51",
+                "pfamMatches": [
+                    "PF01776"
+                ],
+                "pfamDB": "PF01776"
+            },
+            "Y": {
+                "entityNr": "25",
+                "length": "190",
+                "type": "protein",
+                "weight": "22152.7",
+                "rcsbUniAcc": "Q8IE82",
+                "pfamMatches": [
+                    "PF00276",
+                    "PF03939"
+                ],
+                "pfamDB": [
+                    "PF03939",
+                    "PF00276"
+                ]
+            },
+            "Z": {
+                "entityNr": "26",
+                "length": "126",
+                "type": "protein",
+                "weight": "14855.7",
+                "rcsbUniAcc": "O77364",
+                "pfamMatches": [
+                    "PF00467",
+                    "PF16906"
+                ],
+                "pfamDB": [
+                    "PF16906",
+                    "PF00467"
+                ]
+            },
+            "C": {
+                "entityNr": "3",
+                "length": "159",
+                "type": "rna",
+                "weight": "51206.5",
+                "RNA": true
+            },
+            "a": {
+                "entityNr": "37",
+                "length": "150",
+                "type": "protein",
+                "weight": "17407.0",
+                "rcsbUniAcc": "Q8IBY4",
+                "pfamMatches": [
+                    "PF01199"
+                ],
+                "pfamDB": "PF01199"
+            },
+            "b": {
+                "entityNr": "38",
+                "length": "112",
+                "type": "protein",
+                "weight": "12825.4",
+                "rcsbUniAcc": "Q8I713",
+                "pfamMatches": [
+                    "PF01158"
+                ],
+                "pfamDB": "PF01158"
+            },
+            "c": {
+                "entityNr": "39",
+                "length": "92",
+                "type": "protein",
+                "weight": "10571.6",
+                "rcsbUniAcc": "C0H4L5",
+                "pfamMatches": [
+                    "PF01907"
+                ],
+                "pfamDB": "PF01907"
+            },
+            "D": {
+                "entityNr": "4",
+                "length": "260",
+                "type": "protein",
+                "weight": "28065.0",
+                "rcsbUniAcc": "Q8I3T9",
+                "pfamMatches": [
+                    "PF00181",
+                    "PF03947"
+                ],
+                "pfamDB": [
+                    "PF03947",
+                    "PF00181"
+                ]
+            },
+            "d": {
+                "entityNr": "40",
+                "length": "87",
+                "type": "protein",
+                "weight": "10341.7",
+                "rcsbUniAcc": "Q8II62",
+                "pfamMatches": [
+                    "PF01781"
+                ],
+                "pfamDB": "PF01781"
+            },
+            "e": {
+                "entityNr": "41",
+                "length": "51",
+                "type": "protein",
+                "weight": "6540.91",
+                "rcsbUniAcc": "C0H4H3",
+                "pfamMatches": [
+                    "PF00832"
+                ],
+                "pfamDB": "PF00832"
+            },
+            "f": {
+                "entityNr": "42",
+                "length": "128",
+                "type": "protein",
+                "weight": "14645.2",
+                "rcsbUniAcc": "Q8ID50",
+                "pfamMatches": [
+                    "PF00240",
+                    "PF01020"
+                ],
+                "pfamDB": [
+                    "PF01020",
+                    "PF00240"
+                ]
+            },
+            "g": {
+                "entityNr": "43",
+                "length": "39",
+                "type": "protein",
+                "weight": "5108.31",
+                "rcsbUniAcc": "C6S3G4",
+                "pfamMatches": [
+                    "PF05162"
+                ],
+                "pfamDB": "PF05162"
+            },
+            "h": {
+                "entityNr": "44",
+                "length": "96",
+                "type": "protein",
+                "weight": "10826.1",
+                "rcsbUniAcc": "O96184",
+                "pfamMatches": [
+                    "PF01780"
+                ],
+                "pfamDB": "PF01780"
+            },
+            "i": {
+                "entityNr": "45",
+                "length": "104",
+                "type": "protein",
+                "weight": "12194.9",
+                "rcsbUniAcc": "O97231",
+                "pfamMatches": [
+                    "PF00935"
+                ],
+                "pfamDB": "PF00935"
+            },
+            "E": {
+                "entityNr": "5",
+                "length": "386",
+                "type": "protein",
+                "weight": "44318.2",
+                "rcsbUniAcc": "Q8IJC6",
+                "pfamMatches": [
+                    "PF00297"
+                ],
+                "pfamDB": "PF00297"
+            },
+            "F": {
+                "entityNr": "6",
+                "length": "411",
+                "type": "protein",
+                "weight": "46311.7",
+                "rcsbUniAcc": "Q8I431",
+                "pfamMatches": [
+                    "PF00573",
+                    "PF14374"
+                ],
+                "pfamDB": [
+                    "PF14374",
+                    "PF00573"
+                ]
+            },
+            "G": {
+                "entityNr": "7",
+                "length": "173",
+                "type": "protein",
+                "weight": "20268.7",
+                "rcsbUniAcc": "Q8IBQ6",
+                "pfamMatches": [
+                    "PF00281",
+                    "PF00673"
+                ],
+                "pfamDB": [
+                    "PF00673",
+                    "PF00281"
+                ]
+            },
+            "H": {
+                "entityNr": "8",
+                "length": "190",
+                "type": "protein",
+                "weight": "21638.6",
+                "rcsbUniAcc": "Q8IE85",
+                "pfamMatches": [
+                    "PF00347",
+                    "PF00347"
+                ],
+                "pfamDB": "PF00347"
+            },
+            "I": {
+                "entityNr": "9",
+                "length": "221",
+                "type": "protein",
+                "weight": "25587.6",
+                "pfamDB": []
+            }
+        }
+    },
+    "clusters": [
+        [
+            "uL2",
+            "eL43"
+        ],
+        [
+            "eL20",
+            "uL13",
+            "eL14"
+        ],
+        [
+            "eL34",
+            "eL27"
+        ],
+        [
+            "uL18",
+            "eL21"
+        ],
+        [
+            "eL24",
+            "uL14"
+        ],
+        [
+            "eL28",
+            "eL18",
+            "eS12",
+            "eL8",
+            "eL13",
+            "eL15",
+            "eL36",
+            "uL15",
+            "uL29",
+            "uL4",
+            "uL23"
+        ]
+    ],
+    "metadata": [
+        [
+            {
+                "chain": "D",
+                "accession": "Q8I3T9",
+                "nameAccordingToBan": [
+                    "uL2"
+                ]
+            },
+            {
+                "chain": "h",
+                "accession": "O96184",
+                "nameAccordingToBan": [
+                    "eL43"
+                ]
+            }
+        ],
+        [
+            {
+                "chain": "U",
+                "accession": "Q8IDS6",
+                "nameAccordingToBan": [
+                    "eL20"
+                ]
+            },
+            {
+                "chain": "K",
+                "accession": "Q8IJZ7",
+                "nameAccordingToBan": [
+                    "uL13"
+                ]
+            },
+            {
+                "chain": "N",
+                "accession": "Q8ILE8",
+                "nameAccordingToBan": [
+                    "eL14"
+                ]
+            }
+        ],
+        [
+            {
+                "chain": "a",
+                "accession": "Q8IBY4",
+                "nameAccordingToBan": [
+                    "eL34"
+                ]
+            },
+            {
+                "chain": "1",
+                "accession": "Q8IKM5",
+                "nameAccordingToBan": [
+                    "eL27"
+                ]
+            }
+        ],
+        [
+            {
+                "chain": "R",
+                "accession": "Q8ILL3",
+                "nameAccordingToBan": [
+                    "uL18"
+                ]
+            },
+            {
+                "chain": "V",
+                "accession": "Q8ILK3",
+                "nameAccordingToBan": [
+                    "eL21"
+                ]
+            }
+        ],
+        [
+            {
+                "chain": "0",
+                "accession": "Q8IEM3",
+                "nameAccordingToBan": [
+                    "eL24"
+                ]
+            },
+            {
+                "chain": "M",
+                "accession": "Q8IE09",
+                "nameAccordingToBan": [
+                    "uL14"
+                ]
+            }
+        ],
+        [
+            {
+                "chain": "2",
+                "accession": "Q8IHU0",
+                "nameAccordingToBan": [
+                    "eL28"
+                ]
+            },
+            {
+                "chain": "S",
+                "accession": "C0H5G3",
+                "nameAccordingToBan": [
+                    "eL18"
+                ]
+            },
+            {
+                "chain": "J",
+                "accession": "Q8ILL2",
+                "nameAccordingToBan": [
+                    "eS12",
+                    "eL8"
+                ]
+            },
+            {
+                "chain": "L",
+                "accession": "Q8IAX6",
+                "nameAccordingToBan": [
+                    "eL13"
+                ]
+            },
+            {
+                "chain": "P",
+                "accession": "C0H4A6",
+                "nameAccordingToBan": [
+                    "eL15"
+                ]
+            },
+            {
+                "chain": "b",
+                "accession": "Q8I713",
+                "nameAccordingToBan": [
+                    "eL36"
+                ]
+            },
+            {
+                "chain": "O",
+                "accession": "C6KT23",
+                "nameAccordingToBan": [
+                    "uL15"
+                ]
+            },
+            {
+                "chain": "3",
+                "accession": "Q8IIB4",
+                "nameAccordingToBan": [
+                    "uL29"
+                ]
+            },
+            {
+                "chain": "F",
+                "accession": "Q8I431",
+                "nameAccordingToBan": [
+                    "uL4"
+                ]
+            },
+            {
+                "chain": "Y",
+                "accession": "Q8IE82",
+                "nameAccordingToBan": [
+                    "uL23"
+                ]
+            }
+        ]
+    ]
+}

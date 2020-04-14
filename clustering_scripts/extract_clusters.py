@@ -7,17 +7,6 @@ import numpy as np
 import json
 
 
-def verify_no_rna(nbrtree=dict, allchains=list, rnas=list):
-    for key in nbrtree.keys():
-        for polymer in rnas:
-            if polymer in nbrtree[key]:
-                print("RNA {} in protein-only neighbor tree!".format(polymer))
-                raise ValueError
-        if key not in allchains:
-            print("Key {} is not struct's chains: {}!".format(key, allchains))
-            raise ValueError
-
-
 def extract_clusters(pdbid=str, rnas=list, radius=int):
     filepath = os.path.realpath("./../.cif_models/{}.cif".format(pdbid))
     requestedstruct = pdbid
@@ -60,6 +49,18 @@ def extract_clusters(pdbid=str, rnas=list, radius=int):
         "metadata": metadata,
         "clusters": nbrclusters
     }
+
+def verify_no_rna(nbrtree=dict, allchains=list, rnas=list):
+    for key in nbrtree.keys():
+        for polymer in rnas:
+            if polymer in nbrtree[key]:
+                print("RNA {} in protein-only neighbor tree!".format(polymer))
+                raise ValueError
+        if key not in allchains:
+            print("Key {} is not struct's chains: {}!".format(key, allchains))
+            raise ValueError
+
+
 
 
 # >>>>>Past tries, emailed Thomas Hamelryck, the author of NeighborSearch among other things.
