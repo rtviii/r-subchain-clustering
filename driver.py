@@ -21,12 +21,15 @@ def openjson(fullpath=str):
         return jsonprofile
 
 
-# def download_cluster_configuration(molprofpath=str, targetradius=int):
-def download_cluster_configuration( pdbid, rnas, targetradius, nomenclatureMap=dict):
-
-    pdbid = str.upper(pdbid)
-    subchainclusters = extract_clusters(pdbid, rnas, targetradius, nomenclatureMap)
-    filename = "./clusterdata/{}/{}_withR={}_|_{}+{}__in{}_|_.json".format(
+def save_clusters_of( pdbid=str, targetradius=float ):
+    pdbid                  = str.upper(pdbid)
+    #
+    molecular_profile_path = './struct_profiles/{}.json'.format(str.upper(pdbid))
+    profile                = openjson(molecular_profile_path)
+    rnas                   = profile['metadata']['rnanames']
+    nommap                 = nom_map_from_profile(profile)
+    subchainclusters       = extract_clusters(pdbid, rnas, targetradius, nommap)
+    filename               = "./clusterdata/{}/{}_withR={}_|_{}+{}__in{}_|_.json".format(
         pdbid,
         pdbid,
         f'{ targetradius :.3f}',
@@ -34,7 +37,6 @@ def download_cluster_configuration( pdbid, rnas, targetradius, nomenclatureMap=d
         subchainclusters['metadata']['n_singular'],
         subchainclusters['metadata']['n_clusters'],
     )
-
     if not (os.path.isdir('./clusterdata/{}/'.format(str.upper(pdbid)))):
         Path('./clusterdata/{}/'.format(pdbid)
              ).mkdir(parents=True, exist_ok=True)
@@ -45,17 +47,16 @@ def download_cluster_configuration( pdbid, rnas, targetradius, nomenclatureMap=d
 
 
 
-
 def main():
     step = 0.5  # angstrom
+    temprad = 3.1
+
+    print(batch)
     for key in batch:
-        molecular_profile_path = './struct_profiles/{}.json'.format(key)
-        print("Working with ", molecular_profile_path)
-        for radius in np.arange(1.5, 8, step):
-            x = download_cluster_configuration(molecular_profile_path, radius)
-
-
-def runclusters_single():
+        save_clusters_of(key, temprad)
+        
+        
+def cli_get_clusters():
     parser = argparse.ArgumentParser(
         description='Process pdbid to find clusters of.')
     parser.add_argument('pdbid', metavar='id')
@@ -63,36 +64,10 @@ def runclusters_single():
     args = parser.parse_args()
     pdbid = args.pdbid
     radius = float(args.radius)
+    save_clusters_of(pdbid, radius)
+
+# runclusters_single()
 
 
-    molecular_profile_path = './struct_profiles/{}.json'.format(str.upper(pdbid))
-    profile                = openjson(molecular_profile_path)
-    rnas                   = profile['metadata']['rnanames']
-
-    nommap = nom_map_from_profile(profile)
-    x = download_cluster_configuration(pdbid, rnas, radius, nommap)
-
-def reconstructClustersInNomenclature(clusterdatum=json, pdbid=str):
-
-    molprofile      = openjson('./struct_profiles/{}.json'.format(str.upper(pdbid)))
-    nomenclaturemap = nom_map_from_profile(molprofile)
-
-    print(molprofile)
-    print('got molprofule')
-    print('\n\n')
-    print(clusterdatum)
-
-    # def chainid_to_nomenclature(jsonprofile=json, chainid=str):
-    #     for polymer in jsonprofile.polymers:
-    #         if chainid == polymer.chainid:
-    #             return polymer.nomenclature[0]
-    #     return -1
-
-    # print("clusterdatum", clusterdatum)
-
-
-
-runclusters_single()
-
-
-# main()
+main()
+# cli_get_clusters()

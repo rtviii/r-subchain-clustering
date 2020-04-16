@@ -51,10 +51,6 @@ def extract_clusters(pdbid=str, rnas=list, radius=int, nomenclatureMap=dict):
         else:
             i += 1
 
-                   
-                   
-                   
-
     # so, the neighbor tree is needed to provide a basis for clusters
     nbrtree = nbrtuples_to_nbrtree(newnompairs)
     verify_no_rna(nbrtree, newnomallchains, rnas_to_exclude)

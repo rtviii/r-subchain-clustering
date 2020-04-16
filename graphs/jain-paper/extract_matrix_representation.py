@@ -3,12 +3,14 @@ import numpy as np
 import networkx as ns
 from proteinspace import protein_space_initial
 
+
 lunitproteins = json.load(open('./resources/lunitproteins.json'))
 sunitproteins = json.load(open('./resources/sunitproteins.json'))
 
 
 # FILENAME is a path to file
 # Returns a json object
+
 def openjsonfile(filename=str):
     if (filename):
         with open(filename) as infile:
@@ -24,6 +26,14 @@ def open_clusters_file(pdbid=str):
     filepath = path_to_clusterfiles + pdbid.upper() + ".json"
     with open(filepath) as f:
         return json.load(f)
+
+def get_protein_index(pdbid=str):
+    data = protein_space_initial
+    if (data[pdbid]):
+        return data[pdbid]
+    else:
+        print("\nProtein not found in the space.\n")
+        return IndexError
 
 
 def construct_adjacency_matrix(pdbid=str):
@@ -50,14 +60,6 @@ def construct_adjacency_matrix(pdbid=str):
 
 def save_as_matrix(adjmatrix=np.array):
     np.savetxt('test.csv', np.around(adjmatrix, decimals=0), fmt='%1d')
-
-def get_protein_index(pdbid=str):
-    data = protein_space_initial
-    if (data[pdbid]):
-        return data[pdbid]
-    else:
-        print("\nProtein not found in the space.\n")
-        return IndexError
 
 
 construct_adjacency_matrix("5gak")
