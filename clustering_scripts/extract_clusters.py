@@ -8,9 +8,9 @@ import json
 
 
 def extract_clusters(pdbid=str, rnas=list, radius=int):
-    filepath = os.path.realpath("./../.cif_models/{}.cif".format(pdbid))
+    filepath = os.path.realpath("./../cif_models/{}.cif".format(pdbid))
     requestedstruct = pdbid
-    requestedradius = radius
+    requestedradius = int(radius)
     rnas_to_exclude = rnas
 
     print("Opening {}".format(filepath))
@@ -24,7 +24,7 @@ def extract_clusters(pdbid=str, rnas=list, radius=int):
     allchains = [chain.get_id() for chain in structure.get_chains()]
     atomwise_struct = PDB.Selection.unfold_entities(structure, "A")
     structwide_ns = PDB.NeighborSearch(atomwise_struct, bucket_size=5)
-    all_nbr_pairs = structwide_ns.search_all(radius, "C")
+    all_nbr_pairs = structwide_ns.search_all(requestedradius, "C")
 
     i = 0
     # Excluding RNAs from the protein neighbor pairs
@@ -47,7 +47,8 @@ def extract_clusters(pdbid=str, rnas=list, radius=int):
 
     return {
         "metadata": metadata,
-        "clusters": nbrclusters
+        "clusters": nbrclusters,
+        "nbrtree" : nbrtree
     }
 
 def verify_no_rna(nbrtree=dict, allchains=list, rnas=list):
@@ -66,9 +67,9 @@ def verify_no_rna(nbrtree=dict, allchains=list, rnas=list):
 # >>>>>Past tries, emailed Thomas Hamelryck, the author of NeighborSearch among other things.
 # >>>> Still not sure if chain neighbors given a CHAIN could be gotten.
 # >>>> center in search has to be np.shape = (3,)
-# atomwise_K =        PDB.Selection.unfold_entities(subchain_dict['K'], 'A')
-# np_atomwise_K =     np.array([atom.get_coord() for atom in list(atomwise_K)])
-# struct_ns =         PDB.NeighborSearch(atomwise_struct, 10)
+# atomwise_K                               = PDB.Selection.unfold_entities(subchain_dict['K'], 'A')
+# np_atomwise_K                            = np.array([atom.get_coord() for atom in list(atomwise_K)])
+# struct_ns                                = PDB.NeighborSearch(atomwise_struct, 10)
 # print(np.shape(np_atomwise_K))                                   # (1451,3)
 # chain_nbrs_single = struct_ns.search(np_atomwise_K[43], 10, "C") # works well, yields neighbors in 10 of 43'rd atom
 # chain_nbrs = struct_ns.search(np_atomwise_K, 10, "C")            # Exepected a 3-dimensional Numpy array.

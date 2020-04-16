@@ -20,14 +20,14 @@ def get_metadata(nbrclusters=list, allchains=list, rnas=list):
 
     totalcount = countClustersChains(nbrclusters)
     return {
-        "n_clusters": totalcount[1],
-        "n_clustered": totalcount[0],
-        "n_singular": len(singularChains),
-        "n_rnas": len(rnas),
-        "n_total": len(allchains),
+        "n_clusters"     : totalcount[1],
+        "n_clustered"    : totalcount[0],
+        "n_singular"     : len(singularChains),
+        "n_rnas"         : len(rnas),
+        "n_total"        : len(allchains),
         "singular_chains": singularChains,
-        "rnas": rnas,
-        "allchains ": allchains
+        "rnas"           : rnas,
+        "allchains "     : allchains
     }
 
 

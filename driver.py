@@ -16,7 +16,7 @@ with open('./../assets/kddtable.json', 'r') as infile:
 
 def openjson(fullpath=str):
     with open(fullpath, 'r') as infile:
-        jsonprofile = json.loads(infile)
+        jsonprofile = json.load(infile)
         return jsonprofile
 
 
@@ -30,7 +30,7 @@ def download_cluster_configuration(molprofpath=str, targetradius=int):
     filename = "./clusterdata/{}/{}_withR={}_|_{}+{}__in{}_|_.json".format(
         pdbid,
         pdbid,
-        f'{targetradius:.3f}',
+        f'{ targetradius :.3f}',
         subchainclusters['metadata']['n_clustered'],
         subchainclusters['metadata']['n_singular'],
         subchainclusters['metadata']['n_clusters'],
@@ -41,20 +41,26 @@ def download_cluster_configuration(molprofpath=str, targetradius=int):
              ).mkdir(parents=True, exist_ok=True)
     with open(filename, 'w') as out:
         json.dump(subchainclusters, out)
+        print('Saved successfully at \t [{}]'.format(filename))
     return subchainclusters
 
 
 def reconstructClustersInNomenclature(clusterdatum=json, pdbid=str):
 
-    molprofile = openjson('./struct_profiles/{}.json'.format(pdbid))
+    molprofile = openjson('./struct_profiles/{}.json'.format(str.upper(pdbid)))
 
-    def chainid_to_nomenclature(jsonprofile=json, chainid=str):
-        for polymer in jsonprofile.polymers:
-            if chainid == polymer.chainid:
-                return polymer.nomenclature[0]
-        return -1
+    print(molprofile)
+    print('got molprofule')
+    print('\n\n')
+    print(clusterdatum)
 
-    print("clusterdatum", clusterdatum)
+    # def chainid_to_nomenclature(jsonprofile=json, chainid=str):
+    #     for polymer in jsonprofile.polymers:
+    #         if chainid == polymer.chainid:
+    #             return polymer.nomenclature[0]
+    #     return -1
+
+    # print("clusterdatum", clusterdatum)
 
 
 def driver():
@@ -66,6 +72,7 @@ def driver():
 
     molecular_profile_path = './struct_profiles/{}.json'.format(pdbid)
     cldatum = download_cluster_configuration(molecular_profile_path, 3)
+    print('datum ', type(cldatum))
     reconstructClustersInNomenclature(cldatum, pdbid)
 
 
@@ -78,6 +85,20 @@ def main():
             x = download_cluster_configuration(molecular_profile_path, radius)
 
 
-driver()
+def runclusters_single():
+    parser = argparse.ArgumentParser(
+        description='Process pdbid to find clusters of.')
+    parser.add_argument('pdbid', metavar='id')
+    parser.add_argument('radius', metavar='r')
+    args = parser.parse_args()
+    pdbid = args.pdbid
+    radius = int(args.radius)
+
+    molecular_profile_path = './struct_profiles/{}.json'.format(str.upper(pdbid))
+    x = download_cluster_configuration(molecular_profile_path, radius)
+
+
+
+runclusters_single()
 
 # main()
