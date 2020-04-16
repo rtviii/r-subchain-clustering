@@ -33,23 +33,33 @@ def extract_adjacency_matrix(pdbid=str, radius=float):
 
     construct_adjacency_matrix(clusters, namespace)
 
-
+def tree2tuplearr(nbrtree=dict):
+    nbrtuples = []
+    for kvpair in list(nbrtree.items()):
+        for nbr in kvpair[1]:
+            nbrtuples.append([kvpair[0], nbr])
+    return nbrtuples
+        
+    
 def construct_adjacency_matrix(clusters=dict, nomenclature_namespace=dict):
-    a = list( nomenclature_namespace.keys() )
-    no_dupes = [x for n, x in enumerate(a) if x not in a[:n]]
-    print(no_dupes)  # [[1], [2], [3], [5]]
 
-    dupes = [x for n, x in enumerate(a) if x in a[:n]]
-    print(dupes)  # [[1], [3]]j
+
+    nbrpairs = tree2tuplearr(clusters['nbrtree'])
 
     # construct len(space) x len(space) matrix of 0s
     # 1s in all the proteins within a cluster
     # dim = len(nomenclature_namespace)
-    allnames = list(nomenclature_namespace.keys())
-    data = np.array(allnames)
+    data = np.array(nbrpairs)
     nodes = np.unique(data)
     noidx = {n: i for i, n in enumerate(nodes)}
-    print(noidx)
+    n = nodes.size
+    numdata = np.vectorize(noidx.get)(data)
+    A = np.zeros((n, n))
+    for tail, head in numdata:
+        A[tail, head] = 1
+    save_as_matrix(A)
+
+
     # substrate = np.zeros((dim, dim))
     # save_as_matrix(substrate)
 
