@@ -27,7 +27,7 @@ def get_metadata(nbrclusters=list, allchains=list, rnas=list):
         "n_total"        : len(allchains),
         "singular_chains": singularChains,
         "rnas"           : rnas,
-        "allchains "     : allchains
+        "allchains"      : allchains
     }
 
 

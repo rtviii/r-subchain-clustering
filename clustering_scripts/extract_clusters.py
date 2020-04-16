@@ -7,7 +7,7 @@ import numpy as np
 import json
 
 
-def extract_clusters(pdbid=str, rnas=list, radius=int):
+def extract_clusters(pdbid=str, rnas=list, radius=int, nomenclatureMap=dict):
     filepath = os.path.realpath("./../cif_models/{}.cif".format(pdbid))
     requestedstruct = pdbid
     requestedradius = int(radius)
@@ -22,34 +22,54 @@ def extract_clusters(pdbid=str, rnas=list, radius=int):
         print("Failed to open {}".format(filepath))
 
     allchains = [chain.get_id() for chain in structure.get_chains()]
+    newnomallchains = list(map(lambda chainid: nomenclatureMap[chainid], allchains))
     atomwise_struct = PDB.Selection.unfold_entities(structure, "A")
     structwide_ns = PDB.NeighborSearch(atomwise_struct, bucket_size=5)
     all_nbr_pairs = structwide_ns.search_all(requestedradius, "C")
 
+    idpairs     = list( map(lambda tuple: (tuple[0].get_id(), tuple[1].get_id()), all_nbr_pairs) )
+    newnompairs = list(map( lambda tuple: (nomenclatureMap[tuple[0]], nomenclatureMap[tuple[1]]), idpairs ));
+
+    # applying the nomenclature to the neighbor pairs
+
     i = 0
-    # Excluding RNAs from the protein neighbor pairs
-    while i < len(all_nbr_pairs):
-        if all_nbr_pairs[i][0].get_id() in rnas_to_exclude or all_nbr_pairs[i][1].get_id() in rnas_to_exclude:
-            all_nbr_pairs.pop(i)
+    # Pre-nomenclature version
+    # # Excluding RNAs from the protein neighbor pairs
+    # while i < len(all_nbr_pairs):
+    #     if all_nbr_pairs[i][0].get_id() in rnas_to_exclude or all_nbr_pairs[i][1].get_id() in rnas_to_exclude:
+    #         all_nbr_pairs.pop(i)
+    #         pass
+    #     else:
+    #         i += 1
+    # nbridtuples = [(nbrtuple[0].get_id(), nbrtuple[1].get_id())
+    #                for nbrtuple in all_nbr_pairs]
+    while i < len(newnompairs):
+        # print(newnompairs[i])
+        if newnompairs[i][0] in rnas_to_exclude or newnompairs[i][1] in rnas_to_exclude:
+            newnompairs.pop(i)
             pass
         else:
             i += 1
-    nbridtuples = [(nbrtuple[0].get_id(), nbrtuple[1].get_id())
-                   for nbrtuple in all_nbr_pairs]
-    # so, the neighbor tree is needed to provide a basis for clusters
-    nbrtree = nbrtuples_to_nbrtree(nbridtuples)
-    verify_no_rna(nbrtree, allchains, rnas_to_exclude)
 
+                   
+                   
+                   
+
+    # so, the neighbor tree is needed to provide a basis for clusters
+    nbrtree = nbrtuples_to_nbrtree(newnompairs)
+    verify_no_rna(nbrtree, newnomallchains, rnas_to_exclude)
+    # print("tree in clust ", nbrtree)
     # Extract clusters from the neighbortree
     nbrclusters = [list(c)
                    for c in nbrtree_to_nbrclusters(nbrtree, rnas_to_exclude)]
-    metadata = get_metadata(nbrclusters, allchains, rnas_to_exclude)
+    metadata = get_metadata(nbrclusters, newnomallchains, rnas_to_exclude)
 
     return {
         "metadata": metadata,
         "clusters": nbrclusters,
-        "nbrtree" : nbrtree
+        "nbrtree": nbrtree
     }
+
 
 def verify_no_rna(nbrtree=dict, allchains=list, rnas=list):
     for key in nbrtree.keys():
@@ -60,8 +80,6 @@ def verify_no_rna(nbrtree=dict, allchains=list, rnas=list):
         if key not in allchains:
             print("Key {} is not struct's chains: {}!".format(key, allchains))
             raise ValueError
-
-
 
 
 # >>>>>Past tries, emailed Thomas Hamelryck, the author of NeighborSearch among other things.
