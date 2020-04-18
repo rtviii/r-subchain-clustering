@@ -51,18 +51,19 @@ def tree2tuplearr(nbrtree=dict):
 
 def construct_adjacency_matrix(clusters=dict, nomenclature_namespace=dict):
 
-    nbrpairs = tree2tuplearr(clusters['nbrtree'])
-    nom = list(nomenclature_namespace.keys())
+    nbrpairs  = tree2tuplearr(clusters['nbrtree'])
+    dim       = len(nomenclature_namespace.items())
+    keys      = list(nomenclature_namespace.keys())
+    substrate = np.zeros((dim, dim))
 
-    # data = pd.DataFrame(0, index=nom, columns=nom, dtype=int)
-    # for x, y in nbrpairs:
-    #     if (x not in nom or y not in nom):
-    #         pass
-    #     else:
-    #         data.loc[x, y] = 1
+    for pair in nbrpairs:
+        if (pair[0] not in keys or pair[1] not in keys):
+            pass
+        else:
+            substrate[nomenclature_namespace[pair[0]],
+                      nomenclature_namespace[pair[1]]] = 1
 
-    
-
+    save_as_matrix(substrate)
 
     def degreeMatrix(adjmatrix):
         n = np.size(adjmatrix, 1)
@@ -73,8 +74,8 @@ def construct_adjacency_matrix(clusters=dict, nomenclature_namespace=dict):
                 D[col, row] = D[col, row] + 1
         return D
 
-    D = degreeMatrix(np.array(data))
-    plt.matshow(D)
+    # D = degreeMatrix(np.array(data))
+    plt.matshow(substrate)
     plt.show()
 
     # # print("DATA",data)
@@ -104,4 +105,4 @@ def construct_adjacency_matrix(clusters=dict, nomenclature_namespace=dict):
 #     print('Saved successfully at \t [{}]'.format(filename))
 # return subchainclusters
 
-extract_adjacency_matrix('5myj')
+extract_adjacency_matrix('4v9f')

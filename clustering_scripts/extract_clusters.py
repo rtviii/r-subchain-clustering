@@ -10,7 +10,7 @@ import json
 def extract_clusters(pdbid=str, rnas=list, radius=int, nomenclatureMap=dict):
     filepath = os.path.realpath("./../cif_models/{}.cif".format(pdbid))
     requestedstruct = pdbid
-    requestedradius = int(radius)
+    requestedradius = float(radius)
     rnas_to_exclude = rnas
 
     print("Opening {}".format(filepath))
@@ -21,14 +21,14 @@ def extract_clusters(pdbid=str, rnas=list, radius=int, nomenclatureMap=dict):
     except:
         print("Failed to open {}".format(filepath))
 
-    allchains = [chain.get_id() for chain in structure.get_chains()]
+    allchains       = [chain.get_id() for chain in structure.get_chains()]
     newnomallchains = list(map(lambda chainid: nomenclatureMap[chainid], allchains))
     atomwise_struct = PDB.Selection.unfold_entities(structure, "A")
-    structwide_ns = PDB.NeighborSearch(atomwise_struct, bucket_size=5)
-    all_nbr_pairs = structwide_ns.search_all(requestedradius, "C")
+    structwide_ns   = PDB.NeighborSearch(atomwise_struct, bucket_size=5)
+    all_nbr_pairs   = structwide_ns.search_all(requestedradius, "C")
 
-    idpairs     = list( map(lambda tuple: (tuple[0].get_id(), tuple[1].get_id()), all_nbr_pairs) )
-    newnompairs = list(map( lambda tuple: (nomenclatureMap[tuple[0]], nomenclatureMap[tuple[1]]), idpairs ));
+    idpairs     = list(map(lambda tuple: (tuple[0].get_id(), tuple[1].get_id()), all_nbr_pairs) )
+    newnompairs = list(map(lambda tuple: (nomenclatureMap[tuple[0]], nomenclatureMap[tuple[1]]), idpairs ));
 
     # applying the nomenclature to the neighbor pairs
 

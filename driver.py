@@ -69,5 +69,5 @@ def cli_get_clusters():
 # runclusters_single()
 
 
-main()
-# cli_get_clusters()
+# main()
+cli_get_clusters()
