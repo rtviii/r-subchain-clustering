@@ -1,7 +1,14 @@
 import numpy as np
 import json
 import os
+import pandas as pd
+from pprint import pprint as pp
 from namespaces.total import total
+import matplotlib.pyplot as plt
+import collections
+from scipy.sparse.csgraph import laplacian
+import matplotlib
+matplotlib.use("TkAgg")
 
 # TODO: accessible neigbor-matrix explorer page.
 
@@ -33,48 +40,68 @@ def extract_adjacency_matrix(pdbid=str, radius=float):
 
     construct_adjacency_matrix(clusters, namespace)
 
+
 def tree2tuplearr(nbrtree=dict):
     nbrtuples = []
     for kvpair in list(nbrtree.items()):
         for nbr in kvpair[1]:
             nbrtuples.append([kvpair[0], nbr])
     return nbrtuples
-        
-    
+
+
 def construct_adjacency_matrix(clusters=dict, nomenclature_namespace=dict):
 
-
     nbrpairs = tree2tuplearr(clusters['nbrtree'])
+    nom = list(nomenclature_namespace.keys())
 
-    # construct len(space) x len(space) matrix of 0s
-    # 1s in all the proteins within a cluster
-    # dim = len(nomenclature_namespace)
-    data = np.array(nbrpairs)
-    nodes = np.unique(data)
-    noidx = {n: i for i, n in enumerate(nodes)}
-    n = nodes.size
-    numdata = np.vectorize(noidx.get)(data)
-    A = np.zeros((n, n))
-    for tail, head in numdata:
-        A[tail, head] = 1
-    save_as_matrix(A)
+    # data = pd.DataFrame(0, index=nom, columns=nom, dtype=int)
+    # for x, y in nbrpairs:
+    #     if (x not in nom or y not in nom):
+    #         pass
+    #     else:
+    #         data.loc[x, y] = 1
+
+    
 
 
-    # substrate = np.zeros((dim, dim))
-    # save_as_matrix(substrate)
+    def degreeMatrix(adjmatrix):
+        n = np.size(adjmatrix, 1)
+        D = np.zeros((n, n))
 
-    # for cluster in clusters:
-    #     for protein in cluster:
-    #         inner_nbrs = [*cluster]
-    #         inner_nbrs.remove(protein)
+        for row in adjmatrix:
+            for col in adjmatrix:
+                D[col, row] = D[col, row] + 1
+        return D
 
-    #         index = get_protein_index(protein)
-    #         print("\nproteins's {} index in space is {}".format(protein, index))
-    #         for nbr in inner_nbrs:
-    #             nbr_ind = get_protein_index(nbr)
-    #             print('{} nbr\'s ind is {}'.format(nbr, nbr_ind))
-    #             print("filling 1 at {},{}".format(index, nbr_ind))
-    #             substrate[index-1][nbr_ind-1] = 1
+    D = degreeMatrix(np.array(data))
+    plt.matshow(D)
+    plt.show()
 
+    # # print("DATA",data)
+    # substrate = np.unique(nom)
+    # noidx = {n: i for i, n in enumerate(nom)}
+    # print("Substrate", noidx)
+
+    # def nbrIncidenceIndex(nbrpair=tuple):
+    #     print("Inc index got", nbrpair)
+    #     return [noidx.get(nbrpair[0]), noidx.get(nbrpair[1])]
+
+    # print(numdata)
+    # # print ("Numdata : \n", numdata)
+    # A = np.zeros((n, n))
+    # for tail, head in numdata:
+    #     A[tail, head] = 1
+    # print(A)
+
+    # save_as_matrix(A)
+
+
+# if not (os.path.isdir('./clusterdata/{}/'.format(str.upper(pdbid)))):
+#     Path('./clusterdata/{}/'.format(pdbid)
+#             ).mkdir(parents=True, exist_ok=True)
+# with open(filename, 'w') as out:
+#     json.dump(subchainclusters, out)
+#     print('Saved successfully at \t [{}]'.format(filename))
+# return subchainclusters
 
 extract_adjacency_matrix('5myj')
