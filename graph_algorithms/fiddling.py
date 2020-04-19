@@ -8,6 +8,15 @@ from scipy.sparse import csr_matrix
 import scipy.sparse as ssp
 matplotlib.use("TkAgg")
 
+# TARGET GROUPS:
+
+bacteria = ['5NJT',"5AFI", "5JVG", "5MYJ","5O60","5V7Q","5NRG","4Y4P","3J7Z", "5VP2"]
+eukarya  = ["6EK0","5T2A", "3J79","5GAK","4V7E","5T5H","5XXB", "5XY3", "4UGO"]
+
+#tight: 6eko, 5t5h
+
+#large: 4v7e(e), 
+
 
 def openjson(fullpath=str):
     with open(fullpath, 'r') as infile:

@@ -78,31 +78,4 @@ def construct_adjacency_matrix(clusters=dict, nomenclature_namespace=dict):
     plt.matshow(substrate)
     plt.show()
 
-    # # print("DATA",data)
-    # substrate = np.unique(nom)
-    # noidx = {n: i for i, n in enumerate(nom)}
-    # print("Substrate", noidx)
-
-    # def nbrIncidenceIndex(nbrpair=tuple):
-    #     print("Inc index got", nbrpair)
-    #     return [noidx.get(nbrpair[0]), noidx.get(nbrpair[1])]
-
-    # print(numdata)
-    # # print ("Numdata : \n", numdata)
-    # A = np.zeros((n, n))
-    # for tail, head in numdata:
-    #     A[tail, head] = 1
-    # print(A)
-
-    # save_as_matrix(A)
-
-
-# if not (os.path.isdir('./clusterdata/{}/'.format(str.upper(pdbid)))):
-#     Path('./clusterdata/{}/'.format(pdbid)
-#             ).mkdir(parents=True, exist_ok=True)
-# with open(filename, 'w') as out:
-#     json.dump(subchainclusters, out)
-#     print('Saved successfully at \t [{}]'.format(filename))
-# return subchainclusters
-
 extract_adjacency_matrix('4v9f')

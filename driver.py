@@ -25,6 +25,7 @@ def cli():
     parser = argparse.ArgumentParser(description='Process pdb clustering')
     # parser.add_argument('-q',"--quantity",help='single or batch')
     parser.add_argument('-m','--mode', help='clustering or matrix operations')
+    parser.add_argument('-a','-all', help='run batch')
     #[clust,graph]
     parser.add_argument('pdbid', help='PDB ID')
     parser.add_argument('radius', help='clustering radius', type=float)
@@ -32,25 +33,29 @@ def cli():
     if (args.mode=='g'):
         test()
         return
-
+    if (args.mode=='a'):
+        cluster_all()
     # if (args.mode=='clust'):
     save_clusters(args.pdbid, args.radius)
 
 
 
-def cluster_all(ids, rad=float):
+def cluster_all():
     print(batch)
-    for key in batch:
-        save_clusters(key, rad)
+    keys=batch
+    list( keys ).remove('3J7Z')
+
+    for key in keys:
+        rad = 2.5
+        while rad < 3.2:
+            save_clusters(key, rad)
+            rad +=0.1
 
 
 def openjson(fullpath=str):
     with open(fullpath, 'r') as infile:
         jsonprofile = json.load(infile)
         return jsonprofile
-
-
-
 
 
 cli()
