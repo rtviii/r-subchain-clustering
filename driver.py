@@ -42,12 +42,14 @@ def cli():
 
 def cluster_all():
     print(batch)
-    keys=batch
-    list( keys ).remove('3J7Z')
+    keys=list( batch )
+    # defective = ['5X8T','3J9M','5XXB','4V7E', ]
+    current = ['5T5H', "5VP2", "5XY3", ]
 
-    for key in keys:
-        rad = 2.5
-        while rad < 3.2:
+
+    for key in current:
+        rad = 3.2
+        while rad < 5:
             save_clusters(key, rad)
             rad +=0.1
 

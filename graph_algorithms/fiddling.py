@@ -5,8 +5,14 @@ import matplotlib
 import json
 import os
 from scipy.sparse import csr_matrix
+from namespaces.total import total
+import functools
+import seaborn as sns
 import scipy.sparse as ssp
+from casadi import * 
+
 matplotlib.use("TkAgg")
+namespace = total
 
 # TARGET GROUPS:
 
@@ -16,6 +22,25 @@ eukarya  = ["6EK0","5T2A", "3J79","5GAK","4V7E","5T5H","5XXB", "5XY3", "4UGO"]
 #tight: 6eko, 5t5h
 
 #large: 4v7e(e), 
+
+def construct_adjacency_matrix(clusters=dict, nomenclature_namespace=dict, verbose=False):
+
+    nbrpairs  = tree2tuplearr(clusters['nbrtree'])
+    dim       = len(nomenclature_namespace.items())
+    keys      = list(nomenclature_namespace.keys())
+    substrate = np.zeros((dim, dim))
+
+    for pair in nbrpairs:
+        if (pair[0] not in keys or pair[1] not in keys):
+            pass
+        else:
+            substrate[nomenclature_namespace[pair[0]],
+                      nomenclature_namespace[pair[1]]] = 1
+
+    if(verbose):
+        plt.matshow(substrate)
+        plt.show()
+    return substrate
 
 
 def openjson(fullpath=str):
@@ -72,3 +97,40 @@ def test():
     # print(A)
     plt.matshow(arr_perm)
     plt.show()
+
+
+
+def get_laplacian_ndarray(nparray):
+    csr = csr_matrix(nparray)
+    L   = ssp.csgraph.laplacian(csr)
+    return L.toarray()
+
+
+
+def get_cuthill_mckee_ndarray(nparray):
+
+    csr = csr_matrix(nparray)
+    cuthillmckee   = ssp.csgraph.reverse_cuthill_mckee(csr)
+    return cuthillmckee.toarray()
+
+
+def get_simplemean(targetgroup=str):
+    targetspath = './../clusterdata/targetgroups/{}/'.format(targetgroup)
+    batch       = os.listdir(targetspath)
+    print("BATCH >>>>", batch)
+    adjmats     = [construct_adjacency_matrix(openjson(targetspath+x), namespace, False) for x in batch]
+    
+    # laplacians  = []
+    reduced = functools.reduce(lambda x, y: np.add(x,y), adjmats)
+    reduced = np.divide(reduced, len(adjmats))
+
+    L = get_laplacian_ndarray(reduced)
+    print(L)
+
+    sns.clustermap(L)
+    # plt.matshow(L)
+    plt.show()
+    return
+
+
+get_simplemean('eukarya')
