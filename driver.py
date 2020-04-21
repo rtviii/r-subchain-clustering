@@ -59,13 +59,14 @@ def cluster_all():
         batch = data.keys()
     keys = list(batch)
     defective = ['5X8T', '3J9M', '5XXB', '4V7E', ]
-    left =[ '5T5H', '5VP2', '5XY3', '6EK0']
+    custom =[ '5MYJ', '5T2A']
+    vp2 = [ '5VP2']
     for m in defective:
         keys.remove(m)
 
-    for key in left:
-        rad = 5
-        while rad < 8:
+    for key in vp2:
+        rad = 1.3
+        while rad < 2.5:
             save_clusters(key, rad)
             rad += 0.1
 

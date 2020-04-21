@@ -55,6 +55,7 @@ def get_laplacian_ndarray(nparray):
     csr = csr_matrix(nparray)
     L = ssp.csgraph.laplacian(csr)
     return L.toarray()
+
 def get_cuthill_mckee_ndarray(nparray, names):
     print('BEFORE PETM', names)
     csr = csr_matrix(nparray)
