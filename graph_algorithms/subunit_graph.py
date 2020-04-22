@@ -63,6 +63,69 @@ def plt_subunit(filename=str, clusterdatum=dict, largesmall=str, covariance=Fals
     fig.tight_layout()
     plt.show()
 
+def pltall_batch(directory, namespace):
+    batch = os.listdir(directory)
+    nbrtrees = [tree2tuplearr(openjson(directory + x)['nbrtree'])
+                for x in batch]
+    adjmats = [ajdmat(tree, namespace) for tree in nbrtrees]
+    reduced = functools.reduce(lambda x, y: np.add(x, y), adjmats)
+    reduced = np.divide(reduced, len(adjmats))
+
+    cmk, perm = get_cuthill_mckee_ndarray(reduced, namespace)
+
+    fig, (ax1,ax2,ax3) = plt.subplots(1,3)
+    fig.patch.set_facecolor('xkcd:black')
+
+    ax1.imshow(reduced)
+    ax2.imshow(np.cov(reduced))
+    ax3.imshow(cmk)
+
+    ax1.set_xticks(np.arange(len(namespace)))
+    ax1.set_yticks(np.arange(len(namespace)))
+    ax1.set_yticklabels(namespace)
+    ax1.set_xticklabels(namespace)
+    plt.setp(ax1.get_yticklabels(),  ha="right",
+             rotation_mode="anchor", fontsize=6, c='white')
+    ax1.xaxis.tick_top()
+    plt.setp(ax1.get_xticklabels(), rotation=90, ha="left",
+             rotation_mode="anchor", fontsize=6, c='white')
+
+    ax2.set_xticks(np.arange(len(namespace)))
+    ax2.set_yticks(np.arange(len(namespace)))
+    ax2.set_yticklabels(namespace)
+    ax2.set_xticklabels(namespace)
+    plt.setp(ax2.get_yticklabels(),  ha="right",
+             rotation_mode="anchor", fontsize=6, c='white')
+    ax2.xaxis.tick_top()
+    plt.setp(ax2.get_xticklabels(), rotation=90, ha="left",
+             rotation_mode="anchor", fontsize=6, c='white')
+
+    ax3.set_xticks(np.arange(len(perm)))
+    ax3.set_yticks(np.arange(len(perm)))
+    ax3.set_yticklabels(perm)
+    ax3.set_xticklabels(perm)
+    plt.setp(ax3.get_yticklabels(),  ha="right",
+             rotation_mode="anchor", fontsize=6, c='white')
+    ax3.xaxis.tick_top()
+    plt.setp(ax3.get_xticklabels(), rotation=90, ha="left",
+             rotation_mode="anchor", fontsize=6, c='white')
+
+    # title= "Eukarya & Bacteria | Large Subunit"
+    ax1.set_title('Adjacency', c='white')
+    ax2.set_title('Covariance', c='white')
+    ax3.set_title('Reverse Cuthill-McKee', c='white')
+
+    fig.suptitle('Eukarya | Complete Namesace', fontsize=12, c="white")
+    fig.tight_layout()
+
+    plt.savefig('eukarya triplot', bbox_inches='tight', facecolor=fig.get_facecolor())
+    plt.show()
+
+pltall_batch('./../clusterdata/targetgroups/eukarya/', totalArr)
+
+
+
+
 
 # Plot adjacency, covariance, reverse cuthill-mckee decomp for an instance of a radius
 # by SUBUNIT : largesmall = ['l', 's']
@@ -75,7 +138,9 @@ def pltall_single(filename=str, clusterdatum=dict, largesmall=str):
     substrate = ajdmat(nbrpairs, namesArr)
     covmat = np.cov(substrate)
     ckm, perm = get_cuthill_mckee_ndarray(substrate, namesArr)
+
     fig, (ax1, ax2, ax3) = plt.subplots(1, 3)
+    fig.patch.set_facecolor('xkcd:black')
 
     ax1.imshow(substrate)
     ax2.imshow(covmat)
@@ -97,23 +162,23 @@ def pltall_single(filename=str, clusterdatum=dict, largesmall=str):
     ax3.set_xticklabels(perm)
 
     plt.setp(ax1.get_yticklabels(),  ha="right",
-             rotation_mode="anchor", fontsize=6)
+             rotation_mode="anchor", fontsize=6, c='white')
     plt.setp(ax2.get_yticklabels(),  ha="right",
-             rotation_mode="anchor", fontsize=6)
+             rotation_mode="anchor", fontsize=6, c='white')
     plt.setp(ax3.get_yticklabels(),  ha="right",
-             rotation_mode="anchor", fontsize=6)
+             rotation_mode="anchor", fontsize=6, c='white')
 
     ax1.xaxis.tick_top()
     ax2.xaxis.tick_top()
     ax3.xaxis.tick_top()
     plt.setp(ax1.get_xticklabels(), rotation=90, ha="left",
-             rotation_mode="anchor", fontsize=5)
+             rotation_mode="anchor", fontsize=5, c='white')
     plt.setp(ax2.get_xticklabels(), rotation=90, ha="left",
-             rotation_mode="anchor", fontsize=5)
+             rotation_mode="anchor", fontsize=5, c='white')
     plt.setp(ax3.get_xticklabels(), rotation=90, ha="left",
-             rotation_mode="anchor", fontsize=5)
+             rotation_mode="anchor", fontsize=5, c='white')
 
-    # ax1.set_title("Small Subunit")
+    # ax1.set_title("Small Subunit", c='white')
     plt.suptitle(filename, fontsize=6)
     fig.tight_layout()
     plt.show()
@@ -130,6 +195,7 @@ def plt_batch(directory, namespace):
     reduced = np.divide(reduced, len(adjmats))
 
     fig, ax = plt.subplots()
+    fig.patch.set_facecolor('xkcd:black')
     im = ax.imshow(np.cov(reduced))
     ax.set_xticks(np.arange(len(namespace)))
     ax.set_yticks(np.arange(len(namespace)))
@@ -137,17 +203,19 @@ def plt_batch(directory, namespace):
     ax.set_xticklabels(namespace)
 
     plt.setp(ax.get_yticklabels(),  ha="right",
-             rotation_mode="anchor", fontsize=6)
+             rotation_mode="anchor", fontsize=6, c='white')
 
     ax.xaxis.tick_top()
     plt.setp(ax.get_xticklabels(), rotation=90, ha="left",
-             rotation_mode="anchor", fontsize=6)
+             rotation_mode="anchor", fontsize=6, c='white')
 
-    # ax.set_title('Directory: ', directory)
-    # plt.suptitle(filename, fontsize=6)
+    title= "Eukarya & Bacteria | Large Subunit"
+    ax.set_title(title, c='white')
     fig.tight_layout()
-    plt.show()
+    # plt.show()
+    plt.savefig(title, bbox_inches='tight', facecolor=fig.get_facecolor())
 
+# plt_batch('./../clusterdata/targetgroups/all/', names.largeSubunitArr)
 
 def plt_inner_namespace(pathtodatum=str, covariance=False, pdbid=str):
     clusterdatum = openjson(pathtodatum)
@@ -183,15 +251,12 @@ def plt_inner_namespace(pathtodatum=str, covariance=False, pdbid=str):
     # plt.show()
 
 
-clustpath = './../clusterdata/'
-pdbid = '3J7Z'
-count = 20
-# filename = os.listdir('./../clusterdata/{}/'.format(pdbid))[count]
-# plt_inner_namespace(clustpath + '{}/'.format(pdbid) + filename, covariance=False, pdbid=pdbid)
+# clustpath = './../clusterdata/'
+# pdbid = '3J7Z'
+# count = 20
 
-
-filenum = len(os.listdir('./../clusterdata/{}/'.format(pdbid)))
-for i in range(filenum):
-    filename = os.listdir('./../clusterdata/{}/'.format(pdbid))[i]
-    path = clustpath + '{}/'.format(pdbid) + filename
-    plt_inner_namespace(path, True, pdbid)
+# filenum = len(os.listdir('./../clusterdata/{}/'.format(pdbid)))
+# for i in range(filenum):
+#     filename = os.listdir('./../clusterdata/{}/'.format(pdbid))[i]
+#     path = clustpath + '{}/'.format(pdbid) + filename
+#     plt_inner_namespace(path, True, pdbid)
