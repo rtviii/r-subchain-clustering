@@ -57,12 +57,10 @@ def get_laplacian_ndarray(nparray):
     return L.toarray()
 
 def get_cuthill_mckee_ndarray(nparray, names):
-    print('BEFORE PETM', names)
     csr = csr_matrix(nparray)
     perm = ssp.csgraph.reverse_cuthill_mckee(csr)
     bfs = nparray[perm[:, None], perm]
 
     permutednames = [names[i] for i in perm]
 
-    print('after perm', permutednames)
     return bfs, permutednames

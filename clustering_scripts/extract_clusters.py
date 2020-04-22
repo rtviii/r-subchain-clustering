@@ -7,7 +7,7 @@ import numpy as np
 import json
 
 
-def extract_clusters(pdbid=str, rnas=list, radius=int, nomenclatureMap=dict):
+def extract_clusters(pdbid=str, rnas=list, radius=float, nomenclatureMap=dict):
     filepath = os.path.realpath("./../cif_models/{}.cif".format(pdbid))
     requestedstruct = pdbid
     requestedradius = float(radius)
@@ -34,15 +34,7 @@ def extract_clusters(pdbid=str, rnas=list, radius=int, nomenclatureMap=dict):
 
     i = 0
     # Pre-nomenclature version
-    # # Excluding RNAs from the protein neighbor pairs
-    # while i < len(all_nbr_pairs):
-    #     if all_nbr_pairs[i][0].get_id() in rnas_to_exclude or all_nbr_pairs[i][1].get_id() in rnas_to_exclude:
-    #         all_nbr_pairs.pop(i)
-    #         pass
-    #     else:
-    #         i += 1
-    # nbridtuples = [(nbrtuple[0].get_id(), nbrtuple[1].get_id())
-    #                for nbrtuple in all_nbr_pairs]
+
     while i < len(newnompairs):
         # print(newnompairs[i])
         if newnompairs[i][0] in rnas_to_exclude or newnompairs[i][1] in rnas_to_exclude:
@@ -58,7 +50,7 @@ def extract_clusters(pdbid=str, rnas=list, radius=int, nomenclatureMap=dict):
     # Extract clusters from the neighbortree
     nbrclusters = [list(c)
                    for c in nbrtree_to_nbrclusters(nbrtree, rnas_to_exclude)]
-    metadata = get_metadata(nbrclusters, newnomallchains, rnas_to_exclude)
+    metadata = get_metadata(nbrclusters, newnomallchains, rnas_to_exclude, requestedradius)
 
     return {
         "metadata": metadata,

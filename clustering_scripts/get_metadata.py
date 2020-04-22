@@ -1,4 +1,4 @@
-def get_metadata(nbrclusters=list, allchains=list, rnas=list):
+def get_metadata(nbrclusters=list, allchains=list, rnas=list, radius=float):
     singularChains = []
     mergedClusters = set([])
     # Merge everything
@@ -20,6 +20,7 @@ def get_metadata(nbrclusters=list, allchains=list, rnas=list):
 
     totalcount = countClustersChains(nbrclusters)
     return {
+        "radius"         : radius,
         "n_clusters"     : totalcount[1],
         "n_clustered"    : totalcount[0],
         "n_singular"     : len(singularChains),
@@ -29,5 +30,4 @@ def get_metadata(nbrclusters=list, allchains=list, rnas=list):
         "rnas"           : rnas,
         "allchains"      : allchains
     }
-
 

@@ -28,11 +28,14 @@ def cli():
     parser.add_argument('-a', '-all', help='run batch')
     parser.add_argument('-tgt', '--targets', help='batch of targets(clustererfiles) to plot')
     parser.add_argument('-plt', '--plottype', help='covariance matrix/ cuthillmcgee/ adjacency/ laplacians/ ')
+    parser.add_argument('-t','--thread', help='single thread to process clusters for one id')
 
-    parser.add_argument('pdbid', help='PDB ID')
-    parser.add_argument('radius', help='clustering radius', type=float)
+    parser.add_argument('--pdbid', help='PDB ID')
+    parser.add_argument('--radius', help='clustering radius', type=float)
+
     args = parser.parse_args()
 
+    print("GOT ARGS", args)
     if (args.mode == 'g'):
         print("GOT TARGETS: ", args.targets)
         if (args.plottype == 'covmat'):
@@ -43,6 +46,8 @@ def cli():
             return
         print("No specified plottyped.") 
         
+    if (args.thread):
+        cluster_single_thread(args.thread)
 
     # run clusters on batch
     if (args.mode == 'a'):
@@ -76,5 +81,24 @@ def openjson(fullpath=str):
         jsonprofile = json.load(infile)
         return jsonprofile
 
+
+
+def cluster_single_thread(pdbid):
+    # with open('./../assets/kddtable.json', 'r') as infile:
+    #     data = json.load(infile)
+    #     batch = data.keys()
+
+    # keys = list(batch)
+    # defective = ['5X8T', '3J9M', '5XXB', '4V7E', ]
+    # custom =[ '5MYJ', '5T2A']
+    # vp2 = [ '5VP2']
+    # for m in defective:
+    #     keys.remove(m)
+
+    for key in [pdbid]:
+        rad = 1
+        while rad < 7:
+            save_clusters(key, rad)
+            rad += 0.1
 
 cli()
