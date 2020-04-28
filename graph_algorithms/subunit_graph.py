@@ -6,17 +6,15 @@ import json
 import os
 from scipy.sparse import csr_matrix
 from total import total, totalArr
+import subunits_namespace as namespaces
 from helpers import openjson, construct_adjacency_matrix, tree2tuplearr, get_cuthill_mckee_ndarray, get_laplacian_ndarray
-import subunits_namespace as names
 import functools
 import seaborn as sns
 import argparse
 import scipy.sparse as ssp
 
 
-matplotlib.style.use('classic')
-
-
+matplotlib.style.use('default')
 
 
 def ajdmat(nbrpairs, namespace):
@@ -63,6 +61,7 @@ def plt_subunit(filename=str, clusterdatum=dict, largesmall=str, covariance=Fals
     fig.tight_layout()
     plt.show()
 
+
 def pltall_batch(directory, namespace):
     batch = os.listdir(directory)
     nbrtrees = [tree2tuplearr(openjson(directory + x)['nbrtree'])
@@ -73,7 +72,7 @@ def pltall_batch(directory, namespace):
 
     cmk, perm = get_cuthill_mckee_ndarray(reduced, namespace)
 
-    fig, (ax1,ax2,ax3) = plt.subplots(1,3)
+    fig, (ax1, ax2, ax3) = plt.subplots(1, 3)
     fig.patch.set_facecolor('xkcd:black')
 
     ax1.imshow(reduced)
@@ -118,11 +117,9 @@ def pltall_batch(directory, namespace):
     fig.suptitle('Eukarya | Complete Namesace', fontsize=12, c="white")
     fig.tight_layout()
 
-    plt.savefig('eukarya triplot', bbox_inches='tight', facecolor=fig.get_facecolor())
+    plt.savefig('eukarya triplot', bbox_inches='tight',
+                facecolor=fig.get_facecolor())
     plt.show()
-
-pltall_batch('./../clusterdata/targetgroups/eukarya/', totalArr)
-
 
 
 
@@ -185,38 +182,74 @@ def pltall_single(filename=str, clusterdatum=dict, largesmall=str):
 
 
 # plot covariance matrix of adjacency averages inside a given namespace
-def plt_batch(directory, namespace):
+targetsdirectory = './../clusterdata/targetgroups/'
+def plt_batch(targets, subunitNamespace, covcor):
+    directory =  targetsdirectory + '{}/'.format(targets)
+    #NAMESPACE = 'large', 'small', 'total'
+    #COVCOR = 'covariance', 'correlation'
+    #DIRECTORY = path to targets
+
+    if subunitNamespace == 'small':
+        namespace = namespaces.smallSubunitArr
+    elif subunitNamespace == 'large':
+        namespace = namespaces.largeSubunitArr
+    elif subunitNamespace == 'total':
+        namespace = namespaces.totalArr
+    # print("Got namesapces {}".format(namespace))
+
     batch = os.listdir(directory)
     nbrtrees = [tree2tuplearr(openjson(directory + x)['nbrtree'])
                 for x in batch]
 
     adjmats = [ajdmat(tree, namespace) for tree in nbrtrees]
     reduced = functools.reduce(lambda x, y: np.add(x, y), adjmats)
-    reduced = np.divide(reduced, len(adjmats))
+    adjacency = np.divide(reduced, len(adjmats))
+
 
     fig, ax = plt.subplots()
     fig.patch.set_facecolor('xkcd:black')
-    im = ax.imshow(np.cov(reduced))
+
+
+    
+    covariance= np.cov(adjacency)
+    def correlation_from_covariance(covariance):
+        v = np.sqrt(np.diag(covariance))
+        outer_v = np.outer(v, v)
+        correlation = covariance / outer_v
+        correlation[covariance == 0] = 0
+        return correlation
+    correlation = correlation_from_covariance(covariance)
+
+    if covcor =='covariance':
+        im = ax.imshow(covariance)
+    elif covcor =='correlation':
+        im = ax.imshow(correlation)
+    elif covcor == 'adjacency':
+        im = ax.imshow(adjacency) 
+
     ax.set_xticks(np.arange(len(namespace)))
     ax.set_yticks(np.arange(len(namespace)))
     ax.set_yticklabels(namespace)
     ax.set_xticklabels(namespace)
 
     plt.setp(ax.get_yticklabels(),  ha="right",
-             rotation_mode="anchor", fontsize=6, c='white')
+             rotation_mode="anchor", fontsize=3, c='white')
 
     ax.xaxis.tick_top()
     plt.setp(ax.get_xticklabels(), rotation=90, ha="left",
-             rotation_mode="anchor", fontsize=6, c='white')
+             rotation_mode="anchor", fontsize=3, c='white')
 
-    title= "Eukarya & Bacteria | Large Subunit"
+    title = "{}_for_{}_in_{}".format(covcor, subunitNamespace, targets)
     ax.set_title(title, c='white')
     fig.tight_layout()
     # plt.show()
-    plt.savefig(title, bbox_inches='tight', facecolor=fig.get_facecolor())
+    plt.savefig(title, dpi=400, bbox_inches='tight',facecolor=fig.get_facecolor())
 
-# plt_batch('./../clusterdata/targetgroups/all/', names.largeSubunitArr)
+plt_batch('eukarya', 'total', 'correlation')
 
+
+
+# plot the chains within the namespace of subchains present in the molecule
 def plt_inner_namespace(pathtodatum=str, covariance=False, pdbid=str):
     clusterdatum = openjson(pathtodatum)
 
@@ -224,7 +257,6 @@ def plt_inner_namespace(pathtodatum=str, covariance=False, pdbid=str):
     nbrpairs = tree2tuplearr(clusterdatum['nbrtree'])
     namesArr = clusterdatum['metadata']['allchains']
     substrate = ajdmat(nbrpairs, namesArr)
-
 
     fig, ax = plt.subplots()
     fig.patch.set_facecolor('xkcd:black')
@@ -243,20 +275,11 @@ def plt_inner_namespace(pathtodatum=str, covariance=False, pdbid=str):
     plt.setp(ax.get_xticklabels(), rotation=90, ha="left",
              rotation_mode="anchor", fontsize=8, c='white')
 
-    ax.set_title( '{} | Neighbor radius : {} Å'.format(pdbid, radius), color='white')
+    ax.set_title('{} | Neighbor radius : {} Å'.format(
+        pdbid, radius), color='white')
     # plt.suptitle(filename, fontsize=4)
     fig.tight_layout()
-    filename=' {}_r{}_covmat.png'.format(pdbid,radius)
+    filename = ' {}_r{}_covmat.png'.format(pdbid, radius)
     plt.savefig(filename, bbox_inches='tight', facecolor=fig.get_facecolor())
     # plt.show()
 
-
-# clustpath = './../clusterdata/'
-# pdbid = '3J7Z'
-# count = 20
-
-# filenum = len(os.listdir('./../clusterdata/{}/'.format(pdbid)))
-# for i in range(filenum):
-#     filename = os.listdir('./../clusterdata/{}/'.format(pdbid))[i]
-#     path = clustpath + '{}/'.format(pdbid) + filename
-#     plt_inner_namespace(path, True, pdbid)
