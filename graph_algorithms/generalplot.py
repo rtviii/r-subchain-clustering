@@ -98,28 +98,3 @@ def plot_covmat(targetbatch):
 
 plot_covmat('bacteria')
 
-
-# def OrisSuggestion(matrix):
-    # m = matrix.shape[1]
-    # numberComponents = 0
-    # numberVerticesPermuted = 0
-    # componentIdentifier = np.zeros(m)
-    # permutation = []
-    # for i in range(m):
-    #     if componentIdentifier[i] == 0:
-    #         #   /* vertex i is in a new component */
-    #         numberComponents = numberComponents + 1
-    #         componentIdentifier[i] = numberComponents
-    #         numberVerticesPermuted = numberVerticesPermuted + 1
-    #         permutation[numberVerticesPermuted] = i
-
-    #         # /* find all vertices connected to i */
-    #         k = numberVerticesPermuted
-    #         while k <= numberVerticesPermuted:
-    #             r = permutation[k]
-    #             for c in range(m):
-    #                 if A[r,c] == 1 and componentIdentifier[c] == 0:
-    #                     componentIdentifier[c] = numberComponents
-    #                     numberVerticesPermuted = numberVerticesPermuted + 1
-    #                     permutation[numberVerticesPermuted] = c
-    #                     k = k + 1

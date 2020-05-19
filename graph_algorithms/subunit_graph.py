@@ -218,7 +218,9 @@ def plt_batch(targets, subunitNamespace, covcor):
         correlation = covariance / outer_v
         correlation[covariance == 0] = 0
         return correlation
+
     correlation = correlation_from_covariance(covariance)
+    # im = ax.imshow(correlation)
 
     if covcor =='covariance':
         im = ax.imshow(covariance)
@@ -245,7 +247,7 @@ def plt_batch(targets, subunitNamespace, covcor):
     # plt.show()
     plt.savefig(title, dpi=400, bbox_inches='tight',facecolor=fig.get_facecolor())
 
-plt_batch('eukarya', 'total', 'correlation')
+plt_batch('eukarya', 'total', 'covariance')
 
 
 

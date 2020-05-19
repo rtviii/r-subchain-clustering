@@ -17,9 +17,7 @@ matplotlib.use("TkAgg")
 # - NAMESPACE to contstruct a matrix from
 # - BATCH of molecules to run mean on
 
-#
 namespace = total
-#
 
 
 def save_as_matrix(adjmatrix=np.array):

@@ -22,9 +22,7 @@ def openjson(fullpath=str):
 
 def cli():
     parser = argparse.ArgumentParser(description='Process pdb clustering')
-    # parser.add_argument('-q',"--quantity",help='single or batch')
     parser.add_argument('-m', '--mode', help='clustering or matrix operations')
-    # :[clust,graph]
     parser.add_argument('-a', '-all', help='run batch')
     parser.add_argument('-tgt', '--targets', help='batch of targets(clustererfiles) to plot')
     parser.add_argument('-plt', '--plottype', help='covariance matrix/ cuthillmcgee/ adjacency/ laplacians/ ')
@@ -84,16 +82,6 @@ def openjson(fullpath=str):
 
 
 def cluster_single_thread(pdbid):
-    # with open('./../assets/kddtable.json', 'r') as infile:
-    #     data = json.load(infile)
-    #     batch = data.keys()
-
-    # keys = list(batch)
-    # defective = ['5X8T', '3J9M', '5XXB', '4V7E', ]
-    # custom =[ '5MYJ', '5T2A']
-    # vp2 = [ '5VP2']
-    # for m in defective:
-    #     keys.remove(m)
 
     for key in [pdbid]:
         rad = 1
