@@ -21,38 +21,26 @@ def openjson(fullpath=str):
 
 
 def cli():
-    parser = argparse.ArgumentParser(description='Process pdb clustering')
-    parser.add_argument('-m', '--mode', help='clustering or matrix operations')
-    parser.add_argument('-a', '-all', help='run batch')
-    parser.add_argument('-tgt', '--targets', help='batch of targets(clustererfiles) to plot')
-    parser.add_argument('-plt', '--plottype', help='covariance matrix/ cuthillmcgee/ adjacency/ laplacians/ ')
-    parser.add_argument('-t','--thread', help='single thread to process clusters for one id')
+    parser = argparse.ArgumentParser(description='A tool for parsig and clustering PDB structures. Ribosomes primarily.')
+    # parser.add_argument('-h','--help')
 
-    parser.add_argument('--pdbid', help='PDB ID')
-    parser.add_argument('--radius', help='clustering radius', type=float)
+    # parser.add_argument('-m', '--mode', help='[g, all], clustering or matrix operations')
+    # parser.add_argument('-b', '--batch', help='process batch of structures insteead of a single one')
+
+    # # parser.add_argument('-a', '-all', help='run batch')
+    # parser.add_argument('-tgt', '--targets', help='batch of targets(clustererfiles) to plot')
+
+    # parser.add_argument('-plt', '--plottype', help='covariance matrix/ cuthillmcgee/ adjacency/ laplacians/ ')
+    # # parser.add_argument('-t','--thread', help='single thread to process clusters for one id')
+    # To parse a single molecule
+    parser.add_argument('-p','--path',help="Path to file(Relative?)")
+    parser.add_argument('-r','--radius', help='clustering radius', type=float)
+    parser.add_argument('--verbose', help='To enable atomwise logging. Not useful in any way.')
 
     args = parser.parse_args()
 
-    print("GOT ARGS", args)
-    if (args.mode == 'g'):
-        print("GOT TARGETS: ", args.targets)
-        if (args.plottype == 'covmat'):
-            plot_covmat(args.targets)
-            return
-        if (args.plottype == 'cmk'):
-            plot_simplemean(args.targets)
-            return
-        print("No specified plottyped.") 
-        
-    if (args.thread):
-        cluster_single_thread(args.thread)
-
-    # run clusters on batch
-    if (args.mode == 'a'):
-        cluster_all()
-        return
-
-    save_clusters(args.pdbid, args.radius)
+    print("GOT ARGS: ", args)
+    save_clusters(args.path, args.radius, args.verbose)
 
 
 def cluster_all():
@@ -62,16 +50,10 @@ def cluster_all():
         batch = data.keys()
     keys = list(batch)
     defective = ['5X8T', '3J9M', '5XXB', '4V7E', ]
-    custom =[ '5MYJ', '5T2A']
-    vp2 = [ '5VP2']
-    for m in defective:
-        keys.remove(m)
 
-    for key in vp2:
-        rad = 1.3
-        while rad < 2.5:
-            save_clusters(key, rad)
-            rad += 0.1
+    for molecule in defective:
+        keys.remove(molecule)
+
 
 
 def openjson(fullpath=str):
@@ -80,13 +62,5 @@ def openjson(fullpath=str):
         return jsonprofile
 
 
-
-def cluster_single_thread(pdbid):
-
-    for key in [pdbid]:
-        rad = 1
-        while rad < 7:
-            save_clusters(key, rad)
-            rad += 0.1
 
 cli()

@@ -11,15 +11,17 @@ def openjson(fullpath=str):
         jsonprofile = json.load(infile)
         return jsonprofile
 
-def save_clusters(pdbid=str, targetradius=float):
-    pdbid = str.upper(pdbid)
-    #
-    molecular_profile_path = './struct_profiles/{}.json'.format(
-        str.upper(pdbid))
-    profile = openjson(molecular_profile_path)
-    rnas = profile['metadata']['rnanames']
+def save_clusters(filepath=str, targetradius=float, verbose=False):
+
+    profile    = openjson(filepath)
+    pdbid = str.upper(profile['metadata']['pdbid'])
+    rnas       = profile['metadata']['rnanames']
+
+    # Extract nomenclature map
     nommap = nom_map_from_profile(profile)
-    subchainclusters = extract_clusters(pdbid, rnas, targetradius, nommap)
+    # Extract clusters of proteins
+    subchainclusters = extract_clusters(pdbid, rnas, targetradius, nommap, verbose)
+
     filename = "./clusterdata/{}/{}_withR={}___{}+{}__in{}___.json".format(
         pdbid,
         pdbid,
@@ -28,10 +30,14 @@ def save_clusters(pdbid=str, targetradius=float):
         subchainclusters['metadata']['n_singular'],
         subchainclusters['metadata']['n_clusters'],
     )
+
+    # Create directories if don't exist already
     if not (os.path.isdir('./clusterdata/{}/'.format(str.upper(pdbid)))):
-        Path('./clusterdata/{}/'.format(pdbid)
-             ).mkdir(parents=True, exist_ok=True)
+        Path('./clusterdata/{}/'.format(pdbid)).mkdir(parents=True, exist_ok=True)
+
+    # Write and dump json
     with open(filename, 'w') as out:
         json.dump(subchainclusters, out)
         print('Saved successfully at \t [{}]'.format(filename))
+
     return subchainclusters

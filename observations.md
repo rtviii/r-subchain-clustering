@@ -23,7 +23,7 @@ ___
 ### Arbitrary Choices:
 
 - Particular radius-sample for each of the species when constructing inside-kingdom correlation matrices(different tightness across species)
-- Nomenclature
+- Ambiguous PFAM groups culled
 
 ### More Potential Targets:
 Tetrahymena thermophila
