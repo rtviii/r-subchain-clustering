@@ -20,6 +20,7 @@ def openjson(fullpath=str):
         return jsonprofile
 
 
+
 def cli():
     parser = argparse.ArgumentParser(description='A tool for parsig and clustering PDB structures. Ribosomes primarily.')
     # parser.add_argument('-h','--help')
@@ -39,7 +40,6 @@ def cli():
 
     args = parser.parse_args()
 
-    print("GOT ARGS: ", args)
     save_clusters(args.path, args.radius, args.verbose)
 
 
@@ -53,14 +53,6 @@ def cluster_all():
 
     for molecule in defective:
         keys.remove(molecule)
-
-
-
-def openjson(fullpath=str):
-    with open(fullpath, 'r') as infile:
-        jsonprofile = json.load(infile)
-        return jsonprofile
-
 
 
 cli()
