@@ -13,9 +13,9 @@ def openjson(fullpath=str):
 
 def save_clusters(filepath=str, targetradius=float, verbose=False):
 
-    profile    = openjson(filepath)
-    pdbid = str.upper(profile['metadata']['pdbid'])
-    rnas       = profile['metadata']['rnanames']
+    profile = openjson(filepath)
+    pdbid   = str.upper(profile['metadata']['pdbid'])
+    rnas    = profile['metadata']['rnanames']
 
     # Extract nomenclature map
     nommap = nom_map_from_profile(profile)
