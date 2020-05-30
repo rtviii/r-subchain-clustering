@@ -2,6 +2,7 @@ import numpy as np
 from Bio import PDB
 import pandas as pd
 import argparse
+import pandas as pd
 
 
 # KMEANS on... what? residues?
@@ -10,8 +11,12 @@ import argparse
 
 
 def open_struct(pdbid, filepath):
-    """Returns an open structure"""
-    return PDB.FastMMCIFParser(QUIET=True).get_structure(pdbid, filepath)
+    """"Returns an open structure"""
+    if filepath[-4:] == '.pdb':
+        parser = PDB.PDBParser(QUIET=True)
+    elif filepath[-4:] == '.cif':
+        parser = PDB.FastMMCIFParser(QUIET=True)
+    return parser.get_structure(pdbid, filepath)
 
 
 def residue_distance(residue_one, residue_two):
@@ -25,30 +30,39 @@ def residue_distance(residue_one, residue_two):
 
 
 def chain_distance_matrix(c1, c2):
+    print("Getting the dist matrix between chain {} and chain {}".format(
+        c1.get_id(), c2.get_id()))
     """Returns a matrix of alpha-carbon distances between two chains"""
-    answer = np.zeros((len(c1), len(c2)), np.float)
+    dist_mat = np.zeros((len(c1), len(c2)), np.float)
     for i, residue_one in enumerate(c1):
         for j, residue_two in enumerate(c2):
-            answer[i, j] = residue_distance(residue_one, residue_two)
-    return answer
+            dist_mat[i, j] = residue_distance(residue_one, residue_two)
+    return dist_mat
 
 
-# pdbid = "3j7z"
-# path = pdbid + ".cif"
-# structure = open_struct(pdbid, path)
+def contact_map_catalogue(pdbid, cifpath):
+    model = open_struct(pdbid, cifpath)[0]
+    rows = {}
+    # Populate the dataframe with subchains -- keys
+    for i in model:
+        rows[i.get_id()] = []
+
+    contact_map_catalogue = pd.DataFrame()
+    # For each subchain in the model
+    for j in model:
+        # Get its distance matrix to every other subchain, includign self
+        jthcolumn = [chain_distance_matrix(i, j) for i in model]
+        # Add as a column
+        contact_map_catalogue[j.get_id()] = jthcolumn
+    return contact_map_catalogue
+
+
+x = contact_map_catalogue('1xi4', './1xi4.pdb')
+print(x)
+
+
+# think about how to inject ribosomal sequence into the data.
+# residue-wise
+
 
 # # STRUCTURE --> MODEL -->  CHAINS  --> RESIDUES --> ATOMS
-# model = structure[0]
-
-# parser = argparse.ArgumentParser()
-# parser.add_argument('chain1')
-# parser.add_argument('chain2')
-
-# args = parser.parse_args()
-# c1 = model[args.chain1]
-# c2 = model[args.chain2]
-
-# distmat = chain_distance_matrix(c1, c2)
-# print(np.shape(distmat))
-# print("Chain {} has {} residues".format(c1.get_id(), len([* c1])))
-# print("Chain {} has {} residues".format(c2.get_id(), len([* c2])))
