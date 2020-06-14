@@ -4,6 +4,7 @@
 # Notes
 
 - 90% of clustering takes place between 2 and 4 angstrom.
+
 - Excluding  mitochondria and chloroplasts.
 - 90% nomenclature coverage except for underdetermined molecules. The rest 10% are  ambiguous pfam groups and such.
 
