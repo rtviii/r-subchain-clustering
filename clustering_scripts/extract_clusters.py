@@ -58,7 +58,7 @@ def extract_clusters(pdbid=str, rnas=list, radius=float, nomenclatureMap=dict, v
     return {
         "metadata": metadata,
         "clusters": nbrclusters,
-        "nbrtree": nbrtree
+        "nbrtree" : nbrtree
     }
 
 
